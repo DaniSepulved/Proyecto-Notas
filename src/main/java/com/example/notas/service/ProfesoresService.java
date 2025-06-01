@@ -1,13 +1,14 @@
+// ProfesoresService.java
 package com.example.notas.service;
 
-import java.util.List;
 import com.example.notas.dto.ProfesoresDTO;
 import com.example.notas.model.Profesores;
+import java.util.List;
 
 public interface ProfesoresService {
     Profesores crear(ProfesoresDTO dto);
     List<Profesores> listar();
-    Profesores buscarPorId(Long idProfesor);
-    Profesores actualizar(Long idProfesor, ProfesoresDTO dto);
-    void eliminar(Long idProfesor);
+    Profesores buscarPorId(Integer id);
+    Profesores actualizar(Integer id, ProfesoresDTO dto);
+    void eliminar(Integer id);
 }

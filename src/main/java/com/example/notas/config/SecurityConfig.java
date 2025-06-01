@@ -1,5 +1,7 @@
 package com.example.notas.config;
 
+import com.example.notas.security.JwtFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,10 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.notas.security.JwtFilter;
-
-import jakarta.servlet.http.HttpServletResponse;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -22,25 +20,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         return http
-                // Desactivar CSRF porque usas JWT (aplicación sin estado)
-                .csrf(csrf -> csrf.disable())
-                // Configurar la gestión de sesiones como sin estado
+                .csrf(csrf -> csrf.disable()) // Desactiva CSRF (porque usamos JWT)
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Configurar las reglas de autorización
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas públicas (sin autenticación)
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Endpoints públicos
+                        .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Rutas protegidas con roles específicos
-                        .requestMatchers("/api/profesores/**").hasAnyRole("PROFESOR", "ADMIN")
-                        .requestMatchers("/api/estudiantes/**").hasAnyRole("ESTUDIANTE", "ADMIN")
-                        // Para todas las demás rutas se requiere que el usuario tenga alguno de estos roles
-                        .anyRequest().hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
+
+                        // Endpoints protegidos
+                        .requestMatchers("/api/profesores/**").hasAnyRole("ADMIN", "PROFESOR")
+                        .requestMatchers("/api/estudiantes/**").hasAnyRole("ADMIN", "ESTUDIANTE")
+                        .requestMatchers("/api/asignaturas/**").hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
+                        .requestMatchers("/api/calificaciones/**").hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
+
+                        // Cualquier otro endpoint requiere autenticación con rol válido
+                        .anyRequest().authenticated()
                 )
-                // Manejo personalizado de excepciones para accesos no autorizados
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -51,17 +48,18 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json");
                             response.getWriter().write("{\"error\":\"Acceso denegado\"}\n");
-                        }))
-                // Agregar filtro JWT antes del filtro de autenticación por formulario
+                        })
+                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-    // Bean para encriptar las contraseñas con BCrypt
+    // BCrypt para codificar contraseñas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
+
 
 

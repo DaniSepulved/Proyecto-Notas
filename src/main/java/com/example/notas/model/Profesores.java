@@ -1,7 +1,5 @@
 package com.example.notas.model;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,21 +13,19 @@ public class Profesores {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProfesor;
+    private Integer idProfesor;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Rol rol;
-
-    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
-    private List<Cuestionarios> cuestionarios;
 }
 

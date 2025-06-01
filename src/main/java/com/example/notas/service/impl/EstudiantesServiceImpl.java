@@ -1,17 +1,13 @@
 package com.example.notas.service.impl;
 
-import java.util.List;
-
-// import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.example.notas.dto.EstudiantesDTO;
 import com.example.notas.model.Estudiantes;
 import com.example.notas.repository.EstudiantesRepository;
 import com.example.notas.service.EstudiantesService;
-
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @Service
 public class EstudiantesServiceImpl implements EstudiantesService {
@@ -33,7 +29,7 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     }
 
     @Override
-    public Estudiantes buscarPorId(Long id) {
+    public Estudiantes buscarPorId(Integer id) {
         return estudiantesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Estudiante no encontrado con id: " + id));
     }
@@ -44,7 +40,7 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     }
 
     @Override
-    public Estudiantes actualizar(Long id, EstudiantesDTO dto) {
+    public Estudiantes actualizar(Integer id, EstudiantesDTO dto) {
         Estudiantes estudiante = estudiantesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Estudiante no encontrado con id: " + id));
 
@@ -55,7 +51,7 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     }
 
     @Override
-    public void eliminar(Long id) {
+    public void eliminar(Integer id) {
         Estudiantes estudiante = estudiantesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Estudiante no encontrado con id: " + id));
 

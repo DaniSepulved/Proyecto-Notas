@@ -1,12 +1,13 @@
 package com.example.notas.controller;
 
-import java.util.List;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import com.example.notas.dto.ProfesoresDTO;
 import com.example.notas.model.Profesores;
 import com.example.notas.service.ProfesoresService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/profesores")
@@ -29,18 +30,17 @@ public class ProfesoresController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Profesores> buscarPorId(@PathVariable Long id) {
-        Profesores profesor = profesoresService.buscarPorId(id);
-        return ResponseEntity.ok(profesor);
+    public ResponseEntity<Profesores> buscarPorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(profesoresService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Profesores> actualizar(@PathVariable Long id, @Valid @RequestBody ProfesoresDTO dto) {
+    public ResponseEntity<Profesores> actualizar(@PathVariable Integer id, @Valid @RequestBody ProfesoresDTO dto) {
         return ResponseEntity.ok(profesoresService.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         profesoresService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

@@ -6,4 +6,3 @@ import java.util.Map;
 public interface AuthService {
     Map<String, String> login(LoginDTO loginDTO);
 }
-

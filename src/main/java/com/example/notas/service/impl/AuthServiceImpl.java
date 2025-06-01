@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
         if (estudianteOpt.isPresent()) {
             Estudiantes estudiante = estudianteOpt.get();
             if (passwordEncoder.matches(loginDTO.getPassword(), estudiante.getPassword())) {
-                String token = jwtUtil.generateToken(estudiante);
+                String token = jwtUtil.generateToken(estudiante.getEmail(), "ESTUDIANTE");
                 return generarRespuestaToken(token, estudiante.getEmail(), "ESTUDIANTE");
             }
         }
@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
         if (profesorOpt.isPresent()) {
             Profesores profesor = profesorOpt.get();
             if (passwordEncoder.matches(loginDTO.getPassword(), profesor.getPassword())) {
-                String token = jwtUtil.generateToken(profesor);
+                String token = jwtUtil.generateToken(profesor.getEmail(), "PROFESOR");
                 return generarRespuestaToken(token, profesor.getEmail(), "PROFESOR");
             }
         }
