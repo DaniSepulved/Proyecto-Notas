@@ -1,12 +1,14 @@
 package com.example.notas.service.impl;
 
+import com.example.notas.dto.EstudiantesDTO;
 import com.example.notas.model.Estudiantes;
+import com.example.notas.model.Rol;
 import com.example.notas.repository.EstudiantesRepository;
 import com.example.notas.service.EstudiantesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -21,9 +23,15 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     }
 
     @Override
-    public Estudiantes crear(Estudiantes estudiante) {
+    public Estudiantes crear(EstudiantesDTO dto) {
+        Estudiantes estudiante = new Estudiantes();
+        estudiante.setNombre(dto.getNombre());
+        estudiante.setEmail(dto.getEmail());
+        estudiante.setPassword(dto.getPassword());
+        estudiante.setRol(Rol.ESTUDIANTE); // o dto.getRol() si viene del DTO
         return repository.save(estudiante);
     }
+
 
     @Override
     public List<Estudiantes> listar() {
@@ -37,13 +45,12 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     }
 
     @Override
-    public Estudiantes actualizar(String id, Estudiantes estudianteActualizado) {
-        Estudiantes estudianteExistente = buscarPorId(id);
-        estudianteExistente.setNombre(estudianteActualizado.getNombre());
-        estudianteExistente.setEmail(estudianteActualizado.getEmail());
-        estudianteExistente.setPassword(estudianteActualizado.getPassword());
-        estudianteExistente.setRol(estudianteActualizado.getRol());
-        return repository.save(estudianteExistente);
+    public Estudiantes actualizar(String id, EstudiantesDTO dto) {
+        Estudiantes estudiante = buscarPorId(id);
+        estudiante.setNombre(dto.getNombre());
+        estudiante.setEmail(dto.getEmail());
+        estudiante.setPassword(dto.getPassword());
+        return repository.save(estudiante);
     }
 
     @Override

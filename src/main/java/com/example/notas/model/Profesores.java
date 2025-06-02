@@ -21,8 +21,4 @@ public class Profesores {
     private String password;
 
     private Rol rol;
-
-    public void setApellido(String apellido) {
-        throw new UnsupportedOperationException("Unimplemented method 'setApellido'");
-    }
 }

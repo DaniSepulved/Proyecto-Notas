@@ -1,5 +1,6 @@
 package com.example.notas.dto;
 
+import com.example.notas.model.Rol;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -16,4 +17,6 @@ public class EstudiantesDTO {
 
     @NotBlank
     private String password;
+
+    private Rol rol;
 }
