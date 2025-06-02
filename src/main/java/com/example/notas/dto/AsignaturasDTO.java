@@ -1,15 +1,13 @@
 package com.example.notas.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.Data;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class AsignaturasDTO {
     @NotBlank
     private String nombre;
-
+    
     @NotBlank
-    private String descripcion;
+    private String profesorId; // Cambiado a String para el ID del profesor
 }

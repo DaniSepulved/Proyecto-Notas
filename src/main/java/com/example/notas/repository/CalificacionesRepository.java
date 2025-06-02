@@ -1,7 +1,12 @@
 package com.example.notas.repository;
 
-import com.example.notas.model.Calificaciones;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface CalificacionesRepository extends JpaRepository<Calificaciones, Integer> {
+import com.example.notas.model.Calificaciones;
+
+import java.util.List;
+
+public interface CalificacionesRepository extends MongoRepository<Calificaciones, String> {
+    List<Calificaciones> findByEstudianteId(String estudianteId);
+    List<Calificaciones> findByAsignaturaId(String asignaturaId);
 }

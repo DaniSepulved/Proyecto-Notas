@@ -9,12 +9,21 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfesoresDTO {
+
     @NotBlank
     private String nombre;
 
-    @NotBlank @Email
+    @NotBlank
+    private String apellido;
+
+    @NotBlank
+    @Email
     private String email;
 
     @NotBlank
     private String password;
+
+    @NotBlank
+    private String rol;
 }
+

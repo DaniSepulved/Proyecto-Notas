@@ -30,17 +30,17 @@ public class CalificacionesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Calificaciones> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<Calificaciones> buscarPorId(@PathVariable String id) { // Cambiado a String
         return ResponseEntity.ok(calificacionesService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Calificaciones> actualizar(@PathVariable Integer id, @Valid @RequestBody CalificacionesDTO dto) {
+    public ResponseEntity<Calificaciones> actualizar(@PathVariable String id, @Valid @RequestBody CalificacionesDTO dto) { // Cambiado a String
         return ResponseEntity.ok(calificacionesService.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable String id) { // Cambiado a String
         calificacionesService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

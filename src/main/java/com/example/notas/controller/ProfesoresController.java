@@ -30,17 +30,17 @@ public class ProfesoresController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Profesores> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<Profesores> buscarPorId(@PathVariable String id) { // Cambio de Integer a String
         return ResponseEntity.ok(profesoresService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Profesores> actualizar(@PathVariable Integer id, @Valid @RequestBody ProfesoresDTO dto) {
+    public ResponseEntity<Profesores> actualizar(@PathVariable String id, @Valid @RequestBody ProfesoresDTO dto) { // Cambio de Integer a String
         return ResponseEntity.ok(profesoresService.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable String id) { // Cambio de Integer a String
         profesoresService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

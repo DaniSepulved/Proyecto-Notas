@@ -30,19 +30,18 @@ public class EstudiantesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Estudiantes> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<Estudiantes> buscarPorId(@PathVariable String id) {
         return ResponseEntity.ok(estudiantesService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Estudiantes> actualizar(@PathVariable Integer id, @Valid @RequestBody EstudiantesDTO dto) {
+    public ResponseEntity<Estudiantes> actualizar(@PathVariable String id, @Valid @RequestBody EstudiantesDTO dto) {
         return ResponseEntity.ok(estudiantesService.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable String id) {
         estudiantesService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }
-

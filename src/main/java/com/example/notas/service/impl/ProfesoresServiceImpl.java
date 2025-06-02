@@ -1,13 +1,14 @@
-// ProfesoresServiceImpl.java
 package com.example.notas.service.impl;
 
 import com.example.notas.dto.ProfesoresDTO;
 import com.example.notas.model.Profesores;
+import com.example.notas.model.Rol;
 import com.example.notas.repository.ProfesoresRepository;
 import com.example.notas.service.ProfesoresService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ProfesoresServiceImpl implements ProfesoresService {
                 .nombre(dto.getNombre())
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
+                .rol(Rol.PROFESOR) // Asegúrate de establecer el rol
                 .build();
         return repository.save(profesor);
     }
@@ -38,13 +40,13 @@ public class ProfesoresServiceImpl implements ProfesoresService {
     }
 
     @Override
-    public Profesores buscarPorId(Integer id) {
+    public Profesores buscarPorId(String id) { // Cambio de Integer a String
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Profesor no encontrado con id: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profesor no encontrado con id: " + id));
     }
 
     @Override
-    public Profesores actualizar(Integer id, ProfesoresDTO dto) {
+    public Profesores actualizar(String id, ProfesoresDTO dto) { // Cambio de Integer a String
         Profesores profesor = buscarPorId(id);
         profesor.setNombre(dto.getNombre());
         profesor.setEmail(dto.getEmail());
@@ -53,7 +55,7 @@ public class ProfesoresServiceImpl implements ProfesoresService {
     }
 
     @Override
-    public void eliminar(Integer id) {
+    public void eliminar(String id) { // Cambio de Integer a String
         Profesores profesor = buscarPorId(id);
         repository.delete(profesor);
     }

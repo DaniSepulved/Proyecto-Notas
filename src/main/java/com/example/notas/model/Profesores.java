@@ -1,31 +1,28 @@
 package com.example.notas.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "Profesores")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Document(collection = "profesores")
 public class Profesores {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProfesor;
+    private String id;  // Mongo usa String (ObjectId)
 
-    @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Rol rol;
-}
 
+    public void setApellido(String apellido) {
+        throw new UnsupportedOperationException("Unimplemented method 'setApellido'");
+    }
+}

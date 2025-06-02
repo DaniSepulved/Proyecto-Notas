@@ -1,37 +1,34 @@
 package com.example.notas.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "Calificaciones", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_estudiante", "id_asignatura", "fecha"})
-})
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "calificaciones")
 public class Calificaciones {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCalificacion;
+    private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estudiante", nullable = false)
+    @DBRef
     private Estudiantes estudiante;
 
-    @ManyToOne
-    @JoinColumn(name = "id_asignatura", nullable = false)
+    @DBRef
     private Asignaturas asignatura;
 
-    @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal nota;
 
-
-    @Column(nullable = false)
     private LocalDate fecha;
 }

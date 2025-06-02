@@ -1,60 +1,55 @@
 package com.example.notas.service.impl;
 
-import com.example.notas.dto.EstudiantesDTO;
 import com.example.notas.model.Estudiantes;
 import com.example.notas.repository.EstudiantesRepository;
 import com.example.notas.service.EstudiantesService;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 @Service
 public class EstudiantesServiceImpl implements EstudiantesService {
 
-    private final EstudiantesRepository estudiantesRepository;
+    private final EstudiantesRepository repository;
 
-    public EstudiantesServiceImpl(EstudiantesRepository estudiantesRepository) {
-        this.estudiantesRepository = estudiantesRepository;
+    @Autowired
+    public EstudiantesServiceImpl(EstudiantesRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public Estudiantes crear(EstudiantesDTO dto) {
-        Estudiantes estudiante = Estudiantes.builder()
-                .nombre(dto.getNombre())
-                .email(dto.getEmail())
-                .build();
-
-        return estudiantesRepository.save(estudiante);
-    }
-
-    @Override
-    public Estudiantes buscarPorId(Integer id) {
-        return estudiantesRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Estudiante no encontrado con id: " + id));
+    public Estudiantes crear(Estudiantes estudiante) {
+        return repository.save(estudiante);
     }
 
     @Override
     public List<Estudiantes> listar() {
-        return estudiantesRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
-    public Estudiantes actualizar(Integer id, EstudiantesDTO dto) {
-        Estudiantes estudiante = estudiantesRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Estudiante no encontrado con id: " + id));
-
-        estudiante.setNombre(dto.getNombre());
-        estudiante.setEmail(dto.getEmail());
-
-        return estudiantesRepository.save(estudiante);
+    public Estudiantes buscarPorId(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estudiante no encontrado"));
     }
 
     @Override
-    public void eliminar(Integer id) {
-        Estudiantes estudiante = estudiantesRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Estudiante no encontrado con id: " + id));
+    public Estudiantes actualizar(String id, Estudiantes estudianteActualizado) {
+        Estudiantes estudianteExistente = buscarPorId(id);
+        estudianteExistente.setNombre(estudianteActualizado.getNombre());
+        estudianteExistente.setEmail(estudianteActualizado.getEmail());
+        estudianteExistente.setPassword(estudianteActualizado.getPassword());
+        estudianteExistente.setRol(estudianteActualizado.getRol());
+        return repository.save(estudianteExistente);
+    }
 
-        estudiantesRepository.delete(estudiante);
+    @Override
+    public void eliminar(String id) {
+        Estudiantes estudiante = buscarPorId(id);
+        repository.delete(estudiante);
     }
 }
+

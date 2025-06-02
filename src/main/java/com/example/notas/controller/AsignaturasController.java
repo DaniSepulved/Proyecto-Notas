@@ -30,19 +30,18 @@ public class AsignaturasController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Asignaturas> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<Asignaturas> buscarPorId(@PathVariable String id) { // Cambiado a String
         return ResponseEntity.ok(asignaturasService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Asignaturas> actualizar(@PathVariable Integer id, @Valid @RequestBody AsignaturasDTO dto) {
+    public ResponseEntity<Asignaturas> actualizar(@PathVariable String id, @Valid @RequestBody AsignaturasDTO dto) { // Cambiado a String
         return ResponseEntity.ok(asignaturasService.actualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable String id) { // Cambiado a String
         asignaturasService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }
-

@@ -1,24 +1,18 @@
 package com.example.notas.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import lombok.Data;
 
-@Entity
-@Table(name = "Asignaturas")
+@Document(collection = "asignaturas")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Asignaturas {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAsignatura;
-
-    @Column(nullable = false, length = 100)
+    private String id;
+    
     private String nombre;
-
-    @ManyToOne
-    @JoinColumn(name = "id_profesor", nullable = false)
-    private Profesores profesor;
+    
+    @Field("profesor_id") // Opcional: para personalizar el nombre del campo en MongoDB
+    private String profesorId; // Guardamos solo el ID del profesor
 }
