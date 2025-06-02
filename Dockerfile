@@ -1,5 +1,5 @@
 # Fase 1: Construir la app con Maven y Java 17
-FROM maven:3.9.4-eclipse-temurin-17 AS build
+FROM maven:3.9.4-eclipse-temurin-21 AS build
 
 # Crear carpeta de trabajo dentro del contenedor
 WORKDIR /app
