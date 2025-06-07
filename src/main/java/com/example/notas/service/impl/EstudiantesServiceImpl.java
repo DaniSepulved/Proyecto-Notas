@@ -12,6 +12,54 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+// @Service
+// public class EstudiantesServiceImpl implements EstudiantesService {
+
+//     private final EstudiantesRepository repository;
+
+//     @Autowired
+//     public EstudiantesServiceImpl(EstudiantesRepository repository) {
+//         this.repository = repository;
+//     }
+
+//     @Override
+//     public Estudiantes crear(EstudiantesDTO dto) {
+//         Estudiantes estudiante = new Estudiantes();
+//         estudiante.setNombre(dto.getNombre());
+//         estudiante.setEmail(dto.getEmail());
+//         estudiante.setPassword(dto.getPassword());
+//         estudiante.setRol(Rol.ESTUDIANTE); // o dto.getRol() si viene del DTO
+//         return repository.save(estudiante);
+//     }
+
+
+//     @Override
+//     public List<Estudiantes> listar() {
+//         return repository.findAll();
+//     }
+
+//     @Override
+//     public Estudiantes buscarPorId(String id) {
+//         return repository.findById(id)
+//                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estudiante no encontrado"));
+//     }
+
+//     @Override
+//     public Estudiantes actualizar(String id, EstudiantesDTO dto) {
+//         Estudiantes estudiante = buscarPorId(id);
+//         estudiante.setNombre(dto.getNombre());
+//         estudiante.setEmail(dto.getEmail());
+//         estudiante.setPassword(dto.getPassword());
+//         return repository.save(estudiante);
+//     }
+
+//     @Override
+//     public void eliminar(String id) {
+//         Estudiantes estudiante = buscarPorId(id);
+//         repository.delete(estudiante);
+//     }
+// }
+
 @Service
 public class EstudiantesServiceImpl implements EstudiantesService {
 
@@ -26,12 +74,15 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     public Estudiantes crear(EstudiantesDTO dto) {
         Estudiantes estudiante = new Estudiantes();
         estudiante.setNombre(dto.getNombre());
+        // apellido no existe en entidad => no se usa
         estudiante.setEmail(dto.getEmail());
         estudiante.setPassword(dto.getPassword());
-        estudiante.setRol(Rol.ESTUDIANTE); // o dto.getRol() si viene del DTO
+
+        // Para seguridad, fija el rol sin depender del DTO
+        estudiante.setRol(Rol.ESTUDIANTE);
+
         return repository.save(estudiante);
     }
-
 
     @Override
     public List<Estudiantes> listar() {
@@ -48,8 +99,11 @@ public class EstudiantesServiceImpl implements EstudiantesService {
     public Estudiantes actualizar(String id, EstudiantesDTO dto) {
         Estudiantes estudiante = buscarPorId(id);
         estudiante.setNombre(dto.getNombre());
+        // apellido no existe en entidad => no se usa
         estudiante.setEmail(dto.getEmail());
         estudiante.setPassword(dto.getPassword());
+
+        // rol no se actualiza para mantener consistencia
         return repository.save(estudiante);
     }
 
@@ -59,4 +113,3 @@ public class EstudiantesServiceImpl implements EstudiantesService {
         repository.delete(estudiante);
     }
 }
-
