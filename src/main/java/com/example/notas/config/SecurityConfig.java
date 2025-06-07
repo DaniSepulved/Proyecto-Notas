@@ -27,13 +27,16 @@ public class SecurityConfig {
                         // Endpoints públicos
                         .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/asignaturas/**").permitAll() // Ruta deprotegida
+                        .requestMatchers("/api/calificaciones/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // Endpoints protegidos
                         .requestMatchers("/api/profesores/**").hasAnyRole("ADMIN", "PROFESOR")
                         .requestMatchers("/api/estudiantes/**").hasAnyRole("ADMIN", "ESTUDIANTE")
-                        .requestMatchers("/api/asignaturas/**").hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
-                        .requestMatchers("/api/calificaciones/**").hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
+                        // Deproteger estas dos Rutas
+                        // .requestMatchers("/api/asignaturas/**").hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
+                        // .requestMatchers("/api/calificaciones/**").hasAnyRole("ADMIN", "PROFESOR", "ESTUDIANTE")
 
                         // Cualquier otro endpoint requiere autenticación con rol válido
                         .anyRequest().authenticated()
