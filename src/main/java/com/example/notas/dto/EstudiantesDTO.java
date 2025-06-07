@@ -40,5 +40,5 @@ public class EstudiantesDTO {
     private String password;
 
     @NotBlank
-    private Rol rol;  // Si quieres usarlo, lo tomas aquí, pero yo lo fijo abajo
+    private String rol;  // Si quieres usarlo, lo tomas aquí, pero yo lo fijo abajo
 }
